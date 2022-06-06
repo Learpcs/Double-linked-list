@@ -1,3 +1,45 @@
+#include <climits>
+#include <algorithm>
+#include <iostream>
+#include <initializer_list>
+#include <optional>
+#include <list>
+
+
+template <typename T>
+struct node
+{
+	T value_;
+	node* next_;
+	node* prev_;
+
+	node(const T& n)
+	{
+		this->value_ = n;
+		this->next_ = nullptr;
+		this->prev_ = nullptr;
+	}
+	node()
+	{
+		this->invalidate();
+	}
+	~node()
+	{
+		this->invalidate();
+	}
+	operator T& ()
+	{
+		return this->value_;
+	}
+
+private:
+	void invalidate()
+	{
+		this->value_ = std::numeric_limits<T>::max();
+		this->next_ = nullptr;
+	}
+};
+
 template <typename T>
 class list
 {
@@ -265,6 +307,10 @@ public:
 	T& back()
 	{
 		return this->tail_->value_;
+	}
+	T& front()
+	{
+		return this->head_->value_;
 	}
 	size_t size() const
 	{
